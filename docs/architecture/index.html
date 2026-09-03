@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clearance Architecture</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: #f8f9fa;
+      padding: 2rem;
+    }
+    .container { max-width: 1400px; margin: 0 auto; }
+    header {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+    }
+    h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    .subtitle { font-size: 1.1rem; color: #666; }
+    .architecture-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+    .component {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .component:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .component h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #2c3e50;
+    }
+    .component-type {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .type-core { background: #e3f2fd; color: #1565c0; }
+    .type-interface { background: #f3e5f5; color: #6a1b9a; }
+    .type-storage { background: #fff3e0; color: #e65100; }
+    .component p { margin: 0.5rem 0; color: #555; }
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    .tech { 
+      background: #f0f0f0;
+      padding: 0.25rem 0.75rem;
+      border-radius: 12px;
+      font-size: 0.85rem;
+    }
+    .flow-diagram {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      margin: 2rem 0;
+    }
+    .flow-diagram h2 {
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+    }
+    .flow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin: 1.5rem 0;
+    }
+    .flow-step {
+      background: #4CAF50;
+      color: white;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 500;
+      min-width: 150px;
+      text-align: center;
+    }
+    .flow-arrow {
+      font-size: 2rem;
+      color: #666;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      padding: 2rem;
+      overflow-y: auto;
+    }
+    .modal-content {
+      background: white;
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 2rem;
+      border-radius: 8px;
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: #f44336;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .modal-close:hover { background: #d32f2f; }
+    pre {
+      background: #f5f5f5;
+      padding: 1rem;
+      border-radius: 4px;
+      overflow-x: auto;
+      margin: 1rem 0;
+    }
+    code { font-family: 'Monaco', 'Courier New', monospace; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Clearance Architecture</h1>
+      <p class="subtitle">Interactive documentation for done + evidence + human-accept desk</p>
+    </header>
+
+    <div class="flow-diagram">
+      <h2>Verification Flow</h2>
+      <div class="flow">
+        <div class="flow-step">Create Packet</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">Verify Evidence</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">Compute Verdict</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">Human Accept/Reject</div>
+      </div>
+    </div>
+
+    <div class="architecture-grid">
+      <div class="component" onclick="showDetail('types')">
+        <span class="component-type type-core">Core</span>
+        <h2>Type System</h2>
+        <p>TypeScript types for packets, evidence, verdicts, and acceptance.</p>
+        <div class="tech-stack">
+          <span class="tech">TypeScript</span>
+          <span class="tech">Strict Mode</span>
+        </div>
+      </div>
+
+      <div class="component" onclick="showDetail('fingerprint')">
+        <span class="component-type type-core">Core</span>
+        <h2>Fingerprint Verifier</h2>
+        <p>SHA-256 hash computation and verification for evidence files.</p>
+        <div class="tech-stack">
+          <span class="tech">Node crypto</span>
+          <span class="tech">SHA-256</span>
+        </div>
+      </div>
+
+      <div class="component" onclick="showDetail('verifier')">
+        <span class="component-type type-core">Core</span>
+        <h2>Verdict Engine</h2>
+        <p>Deterministic logic to compute DONE, NOT_DONE, or NEEDS_HUMAN.</p>
+        <div class="tech-stack">
+          <span class="tech">Zero LLM</span>
+          <span class="tech">Deterministic</span>
+        </div>
+      </div>
+
+      <div class="component" onclick="showDetail('packet')">
+        <span class="component-type type-storage">Storage</span>
+        <h2>Packet Manager</h2>
+        <p>Create, save, load, and update packets with acceptance status.</p>
+        <div class="tech-stack">
+          <span class="tech">JSON Files</span>
+          <span class="tech">Local FS</span>
+        </div>
+      </div>
+
+      <div class="component" onclick="showDetail('cli')">
+        <span class="component-type type-interface">Interface</span>
+        <h2>CLI</h2>
+        <p>Command-line interface: verify, accept, reject, request-changes.</p>
+        <div class="tech-stack">
+          <span class="tech">Node.js</span>
+          <span class="tech">POSIX</span>
+        </div>
+      </div>
+
+      <div class="component" onclick="showDetail('web')">
+        <span class="component-type type-interface">Interface</span>
+        <h2>Web Desk</h2>
+        <p>HTTP server on port 43126 for viewing and managing packets.</p>
+        <div class="tech-stack">
+          <span class="tech">HTTP</span>
+          <span class="tech">REST API</span>
+          <span class="tech">HTML/CSS</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal" class="modal" onclick="if(event.target.id==='modal') closeModal()">
+    <div class="modal-content" id="modal-content">
+      <button class="modal-close" onclick="closeModal()">✕ Close</button>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <script>
+    const details = {
+      types: {
+        title: 'Type System',
+        description: 'Core TypeScript types defining the Clearance data model.',
+        code: `export type VerdictType = 'DONE' | 'NOT_DONE' | 'NEEDS_HUMAN';
+export type AcceptanceStatus = 'pending' | 'accepted' | 'rejected' | 'changes_requested';
+
+export interface Evidence {
+  type: 'file' | 'url' | 'text';
+  path?: string;
+  url?: string;
+  content?: string;
+  sha256?: string;
+}
+
+export interface Packet {
+  id: string;
+  ask: string;
+  evidence: Evidence[];
+  createdAt: string;
+  verdict?: VerdictType;
+  verdictReason?: string;
+  humanReviewRequired?: boolean;
+  acceptanceStatus?: AcceptanceStatus;
+  acceptedAt?: string;
+  acceptedBy?: string;
+  rejectionReason?: string;
+}`,
+        responsibilities: [
+          'Define packet schema with all required and optional fields',
+          'Type-safe evidence variants (file, text, url)',
+          'Verdict enumeration with three deterministic outcomes',
+          'Acceptance status lifecycle tracking'
+        ]
+      },
+      fingerprint: {
+        title: 'Fingerprint Verifier',
+        description: 'SHA-256 cryptographic verification prevents evidence tampering.',
+        code: `import { createHash } from 'crypto';
+import { readFile } from 'fs/promises';
+
+export async function computeSHA256(filePath: string): Promise<string> {
+  const content = await readFile(filePath);
+  return createHash('sha256').update(content).digest('hex');
+}
+
+export async function verifySHA256(
+  filePath: string,
+  expectedHash: string
+): Promise<boolean> {
+  const actualHash = await computeSHA256(filePath);
+  return actualHash.toLowerCase() === expectedHash.toLowerCase();
+}`,
+        responsibilities: [
+          'Compute SHA-256 hashes from file content',
+          'Verify expected hashes match actual file content',
+          'Case-insensitive hash comparison',
+          'Async file I/O with Node.js crypto module'
+        ]
+      },
+      verifier: {
+        title: 'Verdict Engine',
+        description: 'Deterministic rules compute verdicts based on evidence state.',
+        code: `export async function verifyPacket(packet: Packet): Promise<VerificationResult> {
+  const evidenceChecks = await Promise.all(
+    packet.evidence.map(async (evidence) => {
+      // Check existence and fingerprints
+    })
+  );
+  
+  const verdict = determineVerdict(evidenceChecks, packet);
+  return { verdict, reason, evidenceChecks };
+}
+
+function determineVerdict(checks, packet): VerdictType {
+  if (anyFingerprintInvalid) return 'NOT_DONE';
+  if (anyMissing) return 'NOT_DONE';
+  if (allValid && humanReviewRequired) return 'NEEDS_HUMAN';
+  return 'DONE';
+}`,
+        responsibilities: [
+          'Check existence of all evidence items',
+          'Verify SHA-256 fingerprints when provided',
+          'Apply deterministic rules to compute verdict',
+          'Generate human-readable verdict reasons'
+        ]
+      },
+      packet: {
+        title: 'Packet Manager',
+        description: 'Persistence layer for packets stored as JSON files.',
+        code: `const PACKETS_DIR = './data/packets';
+
+export async function savePacket(packet: Packet): Promise<void> {
+  await mkdir(PACKETS_DIR, { recursive: true });
+  const filePath = \`\${PACKETS_DIR}/\${packet.id}.json\`;
+  await writeFile(filePath, JSON.stringify(packet, null, 2));
+}
+
+export async function loadPacket(packetId: string): Promise<Packet | null> {
+  const filePath = \`\${PACKETS_DIR}/\${packetId}.json\`;
+  if (!existsSync(filePath)) return null;
+  const content = await readFile(filePath, 'utf-8');
+  return JSON.parse(content);
+}`,
+        responsibilities: [
+          'Generate unique packet IDs',
+          'Save packets to local filesystem (./data/packets)',
+          'Load packets by ID',
+          'Update acceptance status and metadata'
+        ]
+      },
+      cli: {
+        title: 'CLI',
+        description: 'Command-line interface for packet verification and acceptance.',
+        code: `#!/usr/bin/env node
+
+Commands:
+  clearance verify <packet-file>       # Verify evidence and compute verdict
+  clearance accept <packet-id>         # Accept a DONE packet
+  clearance reject <packet-id>         # Reject a packet
+  clearance request-changes <packet-id> # Request changes`,
+        responsibilities: [
+          'Parse command-line arguments',
+          'Verify packets and display results',
+          'Update acceptance status (accept, reject, request-changes)',
+          'Provide user-friendly output with evidence checks'
+        ]
+      },
+      web: {
+        title: 'Web Desk',
+        description: 'HTTP server and web UI for viewing packets at http://localhost:43126',
+        code: `const PORT = 43126;
+
+Routes:
+  GET  /                  # HTML interface
+  GET  /api/packets       # List all packets
+  GET  /api/packet/:id    # Get packet details
+
+Features:
+  - Real-time packet list
+  - Verdict and status badges
+  - Evidence counts
+  - Auto-refresh every 5 seconds`,
+        responsibilities: [
+          'Serve static HTML/CSS/JS interface',
+          'REST API for packet listing and details',
+          'Real-time updates with polling',
+          'Visual verdict and status indicators'
+        ]
+      }
+    };
+
+    function showDetail(component) {
+      const detail = details[component];
+      const modal = document.getElementById('modal');
+      const body = document.getElementById('modal-body');
+      
+      body.innerHTML = \`
+        <h2>\${detail.title}</h2>
+        <p style="margin: 1rem 0; font-size: 1.1rem;">\${detail.description}</p>
+        
+        <h3 style="margin-top: 2rem;">Key Responsibilities</h3>
+        <ul style="margin: 1rem 0; padding-left: 2rem;">
+          \${detail.responsibilities.map(r => \`<li style="margin: 0.5rem 0;">\${r}</li>\`).join('')}
+        </ul>
+        
+        <h3 style="margin-top: 2rem;">Code Sample</h3>
+        <pre><code>\${detail.code}</code></pre>
+      \`;
+      
+      modal.style.display = 'block';
+    }
+
+    function closeModal() {
+      document.getElementById('modal').style.display = 'none';
+    }
+
+    // Keyboard shortcut
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+  </script>
+</body>
+</html>

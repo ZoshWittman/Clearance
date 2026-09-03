@@ -1,0 +1,21 @@
+{
+  "id": "pkt_missing_evidence_001",
+  "ask": "Deploy production database backup system",
+  "evidence": [
+    {
+      "type": "file",
+      "path": "fixtures/evidence/backup-config.txt"
+    },
+    {
+      "type": "file",
+      "path": "fixtures/evidence/deployment-logs.txt"
+    },
+    {
+      "type": "file",
+      "path": "fixtures/evidence/test-results.txt"
+    }
+  ],
+  "createdAt": "2026-09-03T12:10:00.000Z",
+  "humanReviewRequired": false,
+  "acceptanceStatus": "pending"
+}

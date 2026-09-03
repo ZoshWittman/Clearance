@@ -1,0 +1,14 @@
+{
+  "id": "pkt_tampered_001",
+  "ask": "Implement security patches for CVE-2026-1234",
+  "evidence": [
+    {
+      "type": "file",
+      "path": "fixtures/evidence/security-patch.txt",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    }
+  ],
+  "createdAt": "2026-09-03T12:30:00.000Z",
+  "humanReviewRequired": false,
+  "acceptanceStatus": "pending"
+}

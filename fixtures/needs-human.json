@@ -1,0 +1,18 @@
+{
+  "id": "pkt_needs_human_001",
+  "ask": "Redesign landing page with new brand guidelines",
+  "evidence": [
+    {
+      "type": "file",
+      "path": "fixtures/evidence/design-mockup.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "type": "text",
+      "content": "Implementation complete"
+    }
+  ],
+  "createdAt": "2026-09-03T12:20:00.000Z",
+  "humanReviewRequired": true,
+  "acceptanceStatus": "pending"
+}

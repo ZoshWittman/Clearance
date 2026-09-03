@@ -1,0 +1,18 @@
+{
+  "id": "pkt_clear_done_001",
+  "ask": "Implement user authentication system",
+  "evidence": [
+    {
+      "type": "file",
+      "path": "fixtures/evidence/auth-impl.txt",
+      "sha256": "f21b68b914d23be5630c974adbea5f9b2c7a5b5c576a3035431dccb29ef98cf3"
+    },
+    {
+      "type": "text",
+      "content": "Tests passing: 42/42"
+    }
+  ],
+  "createdAt": "2026-09-03T12:00:00.000Z",
+  "humanReviewRequired": false,
+  "acceptanceStatus": "pending"
+}

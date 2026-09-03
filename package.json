@@ -1,0 +1,33 @@
+{
+  "name": "clearance",
+  "version": "1.0.0",
+  "description": "Done + evidence + human-accept desk for agent deliverables",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "clearance": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "web": "node dist/web.js",
+    "lint": "tsc --noEmit"
+  },
+  "keywords": [
+    "verification",
+    "agent",
+    "deliverables",
+    "evidence",
+    "fingerprint"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.3",
+    "vitest": "^1.0.4"
+  },
+  "dependencies": {}
+}
